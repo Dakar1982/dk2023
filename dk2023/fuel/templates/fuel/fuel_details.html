@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}
+Cena paliwa
+{% endblock %}
+
+{% block header %}
+<h2>Cena paliwa</h2>
+{% endblock %}
+<left>
+{% block content %}
+<div class="col-5 col-sm-10 p-1 bg-white">
+	<div class="row">
+		<div class="col-2 fw-bold">Tytuł:</div>
+		<div class="col-10">{{ fuel.title }}</div>
+	</div>
+	<div class="row">
+		<div class="col-2 fw-bold">Cena:</div>
+		<div class="col-10">{{ fuel.price }}</div>
+	</div>
+	<div class="row">
+		<div class="col-2 fw-bold">Data:</div>
+		<div class="col-10">{{ fuel.date_from }}</div>
+	</div>
+
+	<div class="row">
+		<div class="col-2 fw-bold">Kategoria:</div>
+		<div class="col-10">{{ fuel.fuel_category }}</div>
+	</div>
+	<div class="row">
+		<div class="col-2 fw-bold">Zdjęcie:</div>
+		<div class="col-10">
+			{% if fuel.image %}
+				{% thumbnail fuel.image "400" quality=96 crop="center" as small_image %}
+					<img src="{{ small_image.url }}" />
+				{% endthumbnail %}
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-2 fw-bold">Opis:</div>
+		<div class="col-10">{{ fuel.description }}</div>
+	</div>
+</div>
+{% endblock %}
+</left>

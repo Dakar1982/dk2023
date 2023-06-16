@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+Cena paliwa - Usuń
+{% endblock %}
+
+{% block header %}
+<h2>Cena paliwa - Usuń</h2>
+{% endblock %}
+
+{% block content %}
+<div>
+	<form action=""
+		  method="post"
+		  enctype="multipart/form-data">
+		{% csrf_token %}
+		<div>
+			Czy na pewno chcesz usnunąć {{ fuel.title }}?
+		</div>
+		<div>
+			<button type="submit"
+					class="btn btn-primary btn-sm">
+				<i class="fa-solid fa-floppy-disk"></i> Zapisz
+			</button>
+			<a class="btn btn-secondary btn-sm"
+				href="{% url "fuel-list" %}">
+				<i class="fas fa-undo"></i> Anuluj
+			</a>
+		</div>
+	</form>
+</div>
+{% endblock %}

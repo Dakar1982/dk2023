@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}
+Ceny paliw
+{% endblock %}
+
+{% block header %}
+<h2>Ceny paliw</h2>
+{% endblock %}
+
+{% block content %}
+<form name="search_form" method="post" class="form-inline">
+	{% csrf_token %}
+	{{ form }}
+	<button type="submit"
+		    class="btn btn-primary btn-sm">
+		Szukaj
+	</button>
+</form>
+<a type="button"
+   class="btn btn-primary btn-sm{% if not user.is_authenticated %} disabled{% endif %}"
+   href="{% url "fuel-create" %}">
+	<i class="fas fa-plus"></i> Dodaj
+</a><br><br>
+    <ul>
+      <input type="checkbox"> <a href="">Lista stacji alfabetycznie</a></br>
+      <input type="checkbox"> <a href="">Najtańsza cena</a></br>
+      <input type="checkbox"> <a href="">Nadroższa cena</a></br>
+      <input type="checkbox"> <a href="">Tylko benzyna</a></br>
+      <input type="checkbox"> <a href="">Tylko diesel</a></br>
+      <input type="checkbox"> <a href="">Stacje elektryczne</a></br>
+    </ul>
+<table class="table">
+	<tr>
+		<th></th>
+		<th>Miasto/stacja</th>
+		<th>Cena</th>
+		<th>Data</th>
+		<th>Rodzaj paliwa</th>
+		<th></th>
+	</tr>
+		{% for fuel in fuels %}
+	<tr>
+		<td>
+			{% if fuel.image %}
+				{% thumbnail fuel.image "100" quality=50 crop="center" as small_image %}
+					<img src="{{ small_image.url }}" />
+				{% endthumbnail %}
+			{% endif %}
+		</td>
+		<td><a href="{% url "fuel-details" fuel.id %}">{{ fuel.title }}</a></td>
+		<td>{{ fuel.price }}</td>
+		<td>{{ fuel.date_from|date:"Y-m-d" }}</td>
+
+		<td>{{ fuel.category|default:"[NIMO]" }}</td>
+		<td>
+			<a href="{% url "fuel-update" fuel.id %}" class="btn btn-primary btn-sm{% if not user.is_authenticated %} disabled{% endif %}">
+				<i class="fas fa-edit"></i> Edytuj
+			</a>
+			<a href="{% url "fuel-delete" fuel.id %}" class="btn btn-danger btn-sm{% if not user.is_authenticated %} disabled{% endif %}">
+				<i class="fas fa-trash"></i> Usuń
+			</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
